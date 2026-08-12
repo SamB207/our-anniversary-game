@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Our Little Love Maze ❤️</title>
+
+<style>
+
+• {
+box-sizing: border-box;
+-webkit-tap-highlight-color: transparent;
+}
+
+body {
+margin: 0;
+min-height: 100vh;
+
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+
+background:
+linear-gradient(
+135deg,
+#ffdce9,
+#fff0f6,
+#ffd6e7
+);
+
+color: #71394f;
+
+display: flex;
+justify-content: center;
+
+overflow-x: hidden;
+}
+
+.container {
+width: 100%;
+max-width: 500px;
+
+min-height: 100vh;
+
+padding:
+calc(25px + env(safe-area-inset-top))
+15px
+calc(30px + env(safe-area-inset-bottom));
+
+text-align: center;
+}
+
+/* ---------------- TITLE ---------------- */
+
+h1 {
+margin: 10px 0 5px;
+
+font-size: clamp(27px, 8vw, 38px);
+
+color: #d94f7a;
+}
+
+.subtitle {
+font-size: 16px;
+margin-bottom: 15px;
+
+color: #875268;
+}
+
+/* ---------------- ANNIVERSARY ---------------- */
+
+.anniversary {
+background: rgba(255,255,255,0.75);
+
+border-radius: 20px;
+
+padding: 12px;
+
+margin-bottom: 15px;
+
+box-shadow:
+0 5px 15px rgba(120,50,80,0.08);
+}
+
+.anniversary span {
+color: #e04d7b;
+font-weight: bold;
+}
+
+/* ---------------- STATS ---------------- */
+
+.stats {
+display: flex;
+
+justify-content: center;
+
+gap: 25px;
+
+margin-bottom: 12px;
+
+font-size: 14px;
+
+font-weight: bold;
+}
+
+/* ---------------- MAZE ---------------- */
+
+.maze-container {
+display: flex;
+justify-content: center;
+
+width: 100%;
+
+touch-action: none;
+}
+
+#maze {
+display: grid;
+
+/*
+15 x 15 maze
+*/
+
+grid-template-columns:
+repeat(15, 1fr);
+
+width: min(92vw, 420px);
+
+aspect-ratio: 1 / 1;
+
+padding: 6px;
+
+background: white;
+
+border-radius: 18px;
+
+box-shadow:
+0 10px 30px
+rgba(120, 50, 80, 0.15);
+}
+
+.cell {
+display: flex;
+
+justify-content: center;
+align-items: center;
+
+aspect-ratio: 1 / 1;
+
+font-size:
+clamp(12px, 4vw, 22px);
+}
+
+.wall {
+background: #d86691;
+
+border-radius: 4px;
+}
+
+.path {
+background: #fff8fb;
+}
+
+.player {
+animation:
+heartbeat 1s infinite;
+}
+
+.goal {
+animation:
+heartbeat 1.2s infinite;
+}
+
+/* ---------------- MESSAGE ---------------- */
+
+#message {
+min-height: 45px;
+
+margin: 14px 5px;
+
+font-size: 16px;
+
+font-weight: 600;
+}
+
+/* ---------------- CONTROLS ---------------- */
+
+.controls {
+margin-top: 5px;
+}
+
+.control-row {
+display: flex;
+
+justify-content: center;
+}
+
+.control {
+width: 58px;
+height: 50px;
+
+margin: 3px;
+
+border: none;
+
+border-radius: 15px;
+
+background: white;
+
+color: #d94f7a;
+
+font-size: 23px;
+
+font-weight: bold;
+
+box-shadow:
+0 4px 10px
+rgba(120,50,80,0.12);
+
+touch-action: manipulation;
+}
+
+.control:active {
+transform: scale(0.9);
+
+background: #ffe4ee;
+}
+
+/* ---------------- BUTTON ---------------- */
+
+.restart {
+margin-top: 15px;
+
+padding: 12px 25px;
+
+border: none;
+
+border-radius: 25px;
+
+background: #e95b88;
+
+color: white;
+
+font-size: 15px;
+
+font-weight: bold;
+
+box-shadow:
+0 5px 15px
+rgba(210,70,110,0.2);
+}
+
+.restart:active {
+transform: scale(0.95);
+}
+
+/* ---------------- FINAL MESSAGE ---------------- */
+
+#loveMessage {
+display: none;
+
+margin-top: 20px;
+
+padding: 25px 20px;
+
+background: white;
+
+border-radius: 25px;
+
+box-shadow:
+0 10px 30px
+rgba(120,50,80,0.15);
+
+animation:
+appear 0.8s ease;
+}
+
+.love-title {
+color: #df4e7c;
+
+font-size: 28px;
+
+margin: 5px 0 15px;
+}
+
+.love-text {
+font-size: 17px;
+
+line-height: 1.7;
+
+color: #704154;
+}
+
+.big-heart {
+font-size: 48px;
+
+animation:
+heartbeat 1s infinite;
+}
+
+.signature {
+margin-top: 18px;
+
+font-size: 20px;
+
+font-weight: bold;
+
+color: #df4e7c;
+}
+
+/* ---------------- HEARTS ---------------- */
+
+.floating-heart {
+position: fixed;
+
+bottom: -30px;
+
+font-size: 22px;
+
+pointer-events: none;
+
+animation:
+floatUp 4s linear forwards;
+}
+
+/* ---------------- ANIMATIONS ---------------- */
+
+@keyframes heartbeat {
+
+0%, 100% {
+transform: scale(1);
+}
+
+50% {
+transform: scale(1.18);
+}
+
+}
+
+@keyframes appear {
+
+from {
+opacity: 0;
+transform: scale(0.85);
+}
+
+to {
+opacity: 1;
+transform: scale(1);
+}
+
+}
+
+@keyframes floatUp {
+
+from {
+transform:
+translateY(0)
+rotate(0deg);
+
+opacity: 1;
+}
+
+to {
+transform:
+translateY(-100vh)
+rotate(25deg);
+
+opacity: 0;
+}
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>
+Our Little Love Maze 💕
+</h1>
+
+<div class="subtitle">
+Find your way to my heart ❤️
+</div>
+
+
+<div class="anniversary">
+
+🌸
+<span>
+Our Anniversary Adventure
+</span>
+🌸
+
+</div>
+
+
+<div class="stats">
+
+<div>
+💕 Moves:
+<span id="moves">0</span>
+</div>
+
+<div>
+⏱️ Time:
+<span id="timer">0</span>s
+</div>
+
+</div>
+
+
+<!-- MAZE -->
+
+<div
+class="maze-container"
+id="swipeArea"
+>
+
+<div id="maze"></div>
+
+</div>
+
+
+<div id="message">
+
+Swipe the maze or use the buttons
+to find my heart 💗
+
+</div>
+
+
+<!-- CONTROLS -->
+
+<div class="controls">
+
+<div class="control-row">
+
+<button
+class="control"
+onclick="movePlayer(-1,0)"
+>
+↑
+</button>
+
+</div>
+
+
+<div class="control-row">
+
+<button
+class="control"
+onclick="movePlayer(0,-1)"
+>
+←
+</button>
+
+<button
+class="control"
+onclick="movePlayer(1,0)"
+>
+↓
+</button>
+
+<button
+class="control"
+onclick="movePlayer(0,1)"
+>
+→
+</button>
+
+</div>
+
+</div>
+
+
+<button
+class="restart"
+onclick="restartGame()"
+>
+🔄 Start Over
+</button>
+
+
+<!-- FINAL MESSAGE -->
+
+<div id="loveMessage">
+
+<div class="big-heart">
+❤️
+</div>
+
+
+<h2 class="love-title">
+You Found My Heart 🥹
+</h2>
+
+
+<div class="love-text">
+
+<p>
+You made it! 💕
+</p>
+
+<p>
+Just like this little maze,
+life can sometimes be confusing
+and we don't always know exactly
+where we're going.
+</p>
+
+<p>
+But no matter how many turns
+we have to take, I would always
+choose to find my way back to you.
+</p>
+
+<p>
+Thank you for all the little
+moments, the laughs, the memories,
+and everything we've shared together.
+</p>
+
+<p>
+Here's to our anniversary
+and all the adventures still
+waiting for us. 🌸
+</p>
+
+<p>
+I love you more than words
+can explain. ❤️
+</p>
+
+</div>
+
+
+<div class="signature">
+
+Happy Anniversary, AB! 💕
+<br>
+Love, Sammy ❤️
+
+</div>
+
+
+<div style="margin-top:20px; font-size:25px;">
+
+🌸 💕 🌷 💗 🌸
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+MAZE
+
+= WALL
+. = PATH
+P = PLAYER
+G = GOAL
+
+*/
+
+const mazeMap = [
+
+"###############",
+"#P....#........",
+"####.#.########",
+"#....#.........",
+"#.###########..",
+"#...........#..",
+"###########.#..",
+"#........#..#..",
+"#.######.#.##..",
+"#.#....#.#.....",
+"#.#.##.#.#####.",
+"#...#..#.......",
+"###.#.#########",
+"#.............G",
+"###############"
+
+];
+
+
+/* =====================================================
+VARIABLES
+===================================================== */
+
+const maze =
+document.getElementById("maze");
+
+const movesDisplay =
+document.getElementById("moves");
+
+const timerDisplay =
+document.getElementById("timer");
+
+const message =
+document.getElementById("message");
+
+const loveMessage =
+document.getElementById("loveMessage");
+
+const swipeArea =
+document.getElementById("swipeArea");
+
+
+let playerRow = 1;
+
+let playerCol = 1;
+
+let moves = 0;
+
+let seconds = 0;
+
+let gameFinished = false;
+
+let timer;
+
+
+/* =====================================================
+CREATE MAZE
+===================================================== */
+
+function createMaze() {
+
+maze.innerHTML = "";
+
+
+for (
+let row = 0;
+row < mazeMap.length;
+row++
+) {
+
+for (
+let col = 0;
+col < mazeMap[row].length;
+col++
+) {
+
+const cell =
+document.createElement("div");
+
+
+cell.classList.add("cell");
+
+
+const character =
+mazeMap[row][col];
+
+
+/*
+WALL
+*/
+
+if (character === "#") {
+
+cell.classList.add("wall");
+
+}
+
+else {
+
+cell.classList.add("path");
+
+}
+
+
+/*
+PLAYER
+*/
+
+if (
+row === playerRow &&
+col === playerCol
+) {
+
+cell.textContent = "💗";
+
+cell.classList.add("player");
+
+}
+
+
+/*
+GOAL
+*/
+
+if (
+row === 13 &&
+col === 14
+) {
+
+cell.textContent = "❤️";
+
+cell.classList.add("goal");
+
+}
+
+
+maze.appendChild(cell);
+
+}
+
+}
+
+}
+
+
+/* =====================================================
+MOVE PLAYER
+===================================================== */
+
+function movePlayer(rowChange, colChange) {
+
+if (gameFinished) {
+return;
+}
+
+
+const newRow =
+playerRow + rowChange;
+
+const newCol =
+playerCol + colChange;
+
+
+/*
+Check boundaries
+*/
+
+if (
+newRow < 0 ||
+newRow >= mazeMap.length ||
+newCol < 0 ||
+newCol >= mazeMap[0].length
+) {
+
+hitWall();
+
+return;
+
+}
+
+
+/*
+Check wall
+*/
+
+if (
+mazeMap[newRow][newCol] === "#"
+) {
+
+hitWall();
+
+return;
+
+}
+
+
+/*
+Move
+*/
+
+playerRow = newRow;
+
+playerCol = newCol;
+
+moves++;
+
+movesDisplay.textContent = moves;
+
+
+createMaze();
+
+
+/*
+Check goal
+*/
+
+if (
+playerRow === 13 &&
+playerCol === 14
+) {
+
+finishGame();
+
+}
+
+else {
+
+message.textContent =
+"You're getting closer to my heart 💕";
+
+}
+
+}
+
+
+/* =====================================================
+WALL EFFECT
+===================================================== */
+
+function hitWall() {
+
+message.textContent =
+"Oops! That's a wall 😂💕";
+
+
+/*
+iPhone vibration
+if supported
+*/
+
+if (
+navigator.vibrate
+) {
+
+navigator.vibrate(50);
+
+}
+
+}
+
+
+/* =====================================================
+FINISH GAME
+===================================================== */
+
+function finishGame() {
+
+gameFinished = true;
+
+
+clearInterval(timer);
+
+
+message.textContent =
+"🥹 You made it to my heart! ❤️";
+
+
+loveMessage.style.display =
+"block";
+
+
+/*
+Create floating hearts
+*/
+
+createHearts();
+
+
+/*
+Scroll to final message
+*/
+
+setTimeout(() => {
+
+loveMessage.scrollIntoView({
+behavior: "smooth",
+block: "center"
+});
+
+}, 500);
+
+}
+
+
+/* =====================================================
+FLOATING HEARTS
+===================================================== */
+
+function createHearts() {
+
+for (
+let i = 0;
+i < 15;
+i++
+) {
+
+setTimeout(() => {
+
+const heart =
+document.createElement("div");
+
+
+heart.className =
+"floating-heart";
+
+
+const hearts = [
+"❤️",
+"💕",
+"💗",
+"💖",
+"💘",
+"🌸"
+ ];
+
+
+heart.textContent =
+hearts[
+Math.floor(
+Math.random() *
+hearts.length
+)
+ ];
+
+
+heart.style.left =
+Math.random() * 100 + "%";
+
+
+heart.style.animationDuration =
+(3 + Math.random() * 2) + "s";
+
+
+document.body.appendChild(
+heart
+);
+
+
+setTimeout(() => {
+
+heart.remove();
+
+}, 5000);
+
+
+}, i * 150);
+
+}
+
+}
+
+
+/* =====================================================
+TIMER
+===================================================== */
+
+function startTimer() {
+
+clearInterval(timer);
+
+
+timer = setInterval(() => {
+
+if (!gameFinished) {
+
+seconds++;
+
+timerDisplay.textContent =
+seconds;
+
+}
+
+}, 1000);
+
+}
+
+
+/* =====================================================
+SWIPE CONTROLS
+===================================================== */
+
+let startX = 0;
+
+let startY = 0;
+
+
+swipeArea.addEventListener(
+"touchstart",
+function(event) {
+
+const touch =
+event.touches[0];
+
+startX = touch.clientX;
+
+startY = touch.clientY;
+
+},
+{ passive: true }
+);
+
+
+swipeArea.addEventListener(
+"touchend",
+function(event) {
+
+const touch =
+event.changedTouches[0];
+
+const endX =
+touch.clientX;
+
+const endY =
+touch.clientY;
+
+
+const differenceX =
+endX - startX;
+
+const differenceY =
+endY - startY;
+
+
+const minimumSwipe = 25;
+
+
+/*
+Ignore tiny movements
+*/
+
+if (
+Math.abs(differenceX) <
+minimumSwipe &&
+Math.abs(differenceY) <
+minimumSwipe
+) {
+
+return;
+
+}
+
+
+/*
+Horizontal swipe
+*/
+
+if (
+Math.abs(differenceX) >
+Math.abs(differenceY)
+) {
+
+if (differenceX > 0) {
+
+movePlayer(0, 1);
+
+}
+
+else {
+
+movePlayer(0, -1);
+
+}
+
+}
+
+
+/*
+Vertical swipe
+*/
+
+else {
+
+if (differenceY > 0) {
+
+movePlayer(1, 0);
+
+}
+
+else {
+
+movePlayer(-1, 0);
+
+}
+
+}
+
+},
+{ passive: true }
+);
+
+
+/* =====================================================
+RESTART
+===================================================== */
+
+function restartGame() {
+
+playerRow = 1;
+
+playerCol = 1;
+
+moves = 0;
+
+seconds = 0;
+
+gameFinished = false;
+
+
+movesDisplay.textContent =
+"0";
+
+timerDisplay.textContent =
+"0";
+
+
+message.textContent =
+"Swipe the maze or use the buttons to find my heart 💗";
+
+
+loveMessage.style.display =
+"none";
+
+
+createMaze();
+
+startTimer();
+
+}
+
+
+/* =====================================================
+START
+===================================================== */
+
+createMaze();
+
+startTimer();
+
+</script>
+
+</body>
+</html>
